@@ -141,4 +141,35 @@ public class Db_utility {
 		}
 		return numberOfColumns;
 	}
+	
+	public static int row_count(String s) throws ClassNotFoundException
+	{
+		int numberOfrows=0;
+		try{
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+            //con = DriverManager.getConnection("jdbc:oracle:thin:sys as sysdba/oracle@localhost:1521:orcl");
+            con = DriverManager.getConnection("jdbc:oracle:thin:ora1/ora1@localhost:1521:orcl");
+            stmt = con.createStatement();
+			rs = stmt.executeQuery(s);
+			//ResultSetMetaData rsmd = rs.getMetaData();
+			// numberOfrows = rsmd.getColumnCount();
+			while(rs.next()){
+				String count = rs.getString(1);
+				numberOfrows= Integer.parseInt(count);
+			}
+			 System.out.println(numberOfrows);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+		try {
+			rs.close();
+			stmt.close();
+			con.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		}
+		return numberOfrows;
+	}
 }

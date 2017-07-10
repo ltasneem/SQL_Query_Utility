@@ -68,8 +68,8 @@ public class Sqlplus_utility {
 				{
 					System.out.println("Enter Full Name of the record you want to delete");
 					String name=scn.nextLine();
-					String predel_sql="select * from customers where fullname = '"+name+"'";
-					int affect_count= Db_utility.column_count(predel_sql);
+					String predel_sql="Select count(*) from customers where fullname = '"+name+"'";
+					int affect_count= Db_utility.row_count(predel_sql);
 					System.out.println("If you delete this record it will affect "+ affect_count+" rows in database. Do you want to continue(yes or no)? ");
 					String response= scn.nextLine();
 					if(response.equals("yes"))
