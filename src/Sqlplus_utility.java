@@ -8,7 +8,7 @@ import db_utility.Db_utility;
 
 public class Sqlplus_utility {
 	
-	public static void main(String []args)
+	public static void main(String []args) throws ClassNotFoundException
 	{
 		Scanner scn = new Scanner(System.in);
 		String usrname,passwrd,sql,prompt1,qname;
@@ -24,7 +24,7 @@ public class Sqlplus_utility {
 			System.out.println("Prompt a sql statement to execute : ");
 			sql = scn.nextLine();
 			System.out.println("Prompt '1' to print in console '2' to print in file "
-					+ "'3' to add in database '4' to edit records "
+					+ "'3' to add in database '4' to delete records "
 					+"5 to add named queries :");
 			prompt1 = scn.nextLine();
 			if(prompt1.equals("1"))
@@ -56,6 +56,32 @@ public class Sqlplus_utility {
 				if(usrname.equals("ora1") && passwrd.equals("ora1"))
 				{
 					
+				}
+			}
+			else if(prompt1.equals("4"))
+			{
+				System.out.println("Please Enter your Username to delete records:" );
+				usrname = scn.nextLine();
+				System.out.println("Please Enter your password to delete records:" );
+				passwrd= scn.nextLine();
+				if(usrname.equals("ora1") && passwrd.equals("ora1"))
+				{
+					System.out.println("Enter Full Name of the record you want to delete");
+					String name=scn.nextLine();
+					String predel_sql="select * from customers where fullname = '"+name+"'";
+					int affect_count= Db_utility.column_count(predel_sql);
+					System.out.println("If you delete this record it will affect "+ affect_count+" rows in database. Do you want to continue(yes or no)? ");
+					String response= scn.nextLine();
+					if(response.equals("yes"))
+					{
+						String del_sql="delete from customers where fullname = '"+name+"'";
+						Db_utility.delete_record(del_sql);
+						System.out.println("Deletion is done");
+					}
+					else
+					{
+						System.out.println("Thanks for your response");
+					}
 				}
 			}
 			else if(prompt1.equals("5"))

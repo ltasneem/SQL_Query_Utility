@@ -90,13 +90,43 @@ public class Db_utility {
 		}
 	}
 	
-	public static int column_count(String s)
+	public static void delete_record(String s)
+	{
+		try{
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+                        //con = DriverManager.getConnection("jdbc:oracle:thin:sys as sysdba/oracle@localhost:1521:orcl");
+                        con = DriverManager.getConnection("jdbc:oracle:thin:ora1/ora1@localhost:1521:orcl");
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(s);
+		
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+		try {
+			rs.close();
+			stmt.close();
+			con.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		}
+	}
+	
+	public static int column_count(String s) throws ClassNotFoundException
 	{
 		int numberOfColumns=0;
 		try{
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+            //con = DriverManager.getConnection("jdbc:oracle:thin:sys as sysdba/oracle@localhost:1521:orcl");
+            con = DriverManager.getConnection("jdbc:oracle:thin:ora1/ora1@localhost:1521:orcl");
+            stmt = con.createStatement();
 			rs = stmt.executeQuery(s);
 			ResultSetMetaData rsmd = rs.getMetaData();
 			 numberOfColumns = rsmd.getColumnCount();
+			 System.out.println(numberOfColumns);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
